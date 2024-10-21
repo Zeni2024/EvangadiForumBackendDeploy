@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 //status code
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 //===============registration (sign up)====================//
 
@@ -91,7 +92,7 @@ const login = async (req, res) => {
 
     const username = user[0].username;
     const userid = user[0].userid;
-    const token = jwt.sign({ username, userid }, "secret", { expiresIn: "1d" });
+    const token = jwt.sign({ username, userid }, process.env.JWT_SECRET, { expiresIn: "1d" });
     
     return res.status(StatusCodes.OK).json({
       message: "User login successful",

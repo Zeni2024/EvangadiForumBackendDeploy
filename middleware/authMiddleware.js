@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 async function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -14,7 +15,7 @@ async function authMiddleware(req, res, next) {
   console.log(authHeader);
   console.log(token);
   try {
-    const { username, userid } = jwt.verify(token, "secret"); //decoded payload will be returned which is the information or claims encoded in the token.
+    const { username, userid } = jwt.verify(token, process.env.JWT_SECRET); //decoded payload will be returned which is the information or claims encoded in the token.
     // return res.status(StatusCodes.OK).json({ data });
     req.user = { username, userid };
     next();
